@@ -18,6 +18,13 @@ const PORT = process.env.PORT || 3001;
 // to those routes only and keep the conservative 100kb default everywhere else.
 app.use('/api/test-cases/import', express.json({ limit: '2mb' }));
 app.use(express.json());
+// Express 5 leaves req.body undefined when a request has no JSON body. Default it
+// to {} so route handlers that destructure req.body return a 400 validation error
+// instead of throwing a TypeError.
+app.use((req, _res, next) => {
+  if (req.body === undefined) req.body = {};
+  next();
+});
 
 seed();
 
@@ -40,12 +47,12 @@ const clientDist = path.join(__dirname, '../client/dist');
 app.use(express.static(clientDist));
 
 // Return 404 JSON for unmatched API routes instead of falling through to index.html
-app.all('/api/*', (_req, res) => {
+app.all('/api/{*splat}', (_req, res) => {
   res.status(404).json({ success: false, data: null, error: 'Not found' });
 });
 
 // Catch-all — let React Router handle client-side navigation
-app.get('*', (_req, res) => {
+app.get('/{*splat}', (_req, res) => {
   res.sendFile(path.join(clientDist, 'index.html'));
 });
 
