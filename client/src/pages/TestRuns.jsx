@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import RowLink from '../components/RowLink';
 
 const STATUS_STYLES = {
   'in_progress': { background: '#fef9c3', color: '#854d0e', label: 'In Progress' },
@@ -81,7 +82,9 @@ export default function TestRuns() {
                 onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
                 onMouseLeave={e => e.currentTarget.style.background = i % 2 ? 'var(--surface-alt)' : 'var(--surface)'}
               >
-                <td style={{ ...td, fontWeight: 500 }}>{run.suite_name ?? '—'}</td>
+                <td style={{ ...td, fontWeight: 500 }}>
+                  <RowLink to={`/test-runs/${run.id}`} label={`${run.suite_name ?? 'Test run'} run #${run.id}`}>{run.suite_name ?? '—'}</RowLink>
+                </td>
                 <td style={{ ...td, color: 'var(--text-muted)' }}>{run.feature ?? '—'}</td>
                 <td style={td}><StatusBadge status={run.status} /></td>
                 <td style={{ ...td, textAlign: 'center' }}><CountPill count={run.pass_count} color="var(--status-pass)" /></td>

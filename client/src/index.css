@@ -91,6 +91,19 @@ button, input, select, textarea { font-family: inherit; }
   min-width: max-content;
 }
 
+/* Link or button in the primary cell of a clickable row (see RowLink.jsx).
+   Looks like the surrounding cell text; the global :focus-visible ring applies. */
+.row-link {
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
 /* ── Responsive nav ───────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
   .nav-desktop   { display: none !important; }
