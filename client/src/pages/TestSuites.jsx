@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import RowLink from '../components/RowLink';
 import { Plus } from 'lucide-react';
 import SuiteModal from '../components/SuiteModal';
 
@@ -108,7 +109,9 @@ export default function TestSuites() {
                 onClick={() => navigate(`/test-suites/${suite.id}`)}
                 style={{ background: i % 2 ? 'var(--surface-alt)' : 'var(--surface)', borderBottom: '1px solid var(--border-subtle)', cursor: 'pointer' }}
               >
-                <td style={{ ...td, fontWeight: 500 }}>{suite.name}</td>
+                <td style={{ ...td, fontWeight: 500 }}>
+                  <RowLink to={`/test-suites/${suite.id}`}>{suite.name}</RowLink>
+                </td>
                 <td style={{ ...td, color: 'var(--text-muted)' }}>{suite.feature}</td>
                 <td style={td}><Badge value={suite.status} /></td>
                 <td style={{ ...td, textAlign: 'center', color: 'var(--text-muted)' }}>{suite.case_count}</td>

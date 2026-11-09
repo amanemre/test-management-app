@@ -48,8 +48,9 @@ function SortableCase({ item, onRemove }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
 
   return (
-    <div
+    <li
       ref={setNodeRef}
+      aria-label={item.title}
       style={{
         display: 'flex', alignItems: 'center', gap: 12,
         padding: '11px 14px',
@@ -65,7 +66,7 @@ function SortableCase({ item, onRemove }) {
       }}
     >
       <button
-        aria-label="Drag to reorder"
+        aria-label={`Drag to reorder ${item.title}`}
         {...attributes}
         {...listeners}
         style={{ background: 'none', border: 'none', cursor: 'grab', padding: '2px 4px', color: 'var(--text-faint)', display: 'flex', flexShrink: 0, touchAction: 'none' }}
@@ -76,7 +77,7 @@ function SortableCase({ item, onRemove }) {
       <Badge value={item.severity} map={SEVERITY_STYLES} />
       <Badge value={item.status} map={TC_STATUS_STYLES} />
       <button
-        aria-label="Remove from suite"
+        aria-label={`Remove ${item.title} from suite`}
         onClick={() => onRemove(item.id)}
         style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-faint)', padding: '3px 5px', display: 'flex', borderRadius: 4, marginLeft: 4, flexShrink: 0 }}
         onMouseEnter={e => e.currentTarget.style.color = '#ef4444'}
@@ -84,7 +85,7 @@ function SortableCase({ item, onRemove }) {
       >
         <X size={14} />
       </button>
-    </div>
+    </li>
   );
 }
 
@@ -295,9 +296,11 @@ export default function TestSuiteDetail() {
       {/* Sortable list */}
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={cases.map(c => c.id)} strategy={verticalListSortingStrategy}>
-          {cases.map(c => (
-            <SortableCase key={c.id} item={c} onRemove={handleRemove} />
-          ))}
+          <ul aria-label="Test cases in suite" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+            {cases.map(c => (
+              <SortableCase key={c.id} item={c} onRemove={handleRemove} />
+            ))}
+          </ul>
         </SortableContext>
       </DndContext>
 

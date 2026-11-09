@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import RowLink from '../components/RowLink';
 
 import { formatDate } from '../utils/datetime';
 
@@ -72,7 +73,9 @@ export default function Reports() {
                 onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
                 onMouseLeave={e => e.currentTarget.style.background = i % 2 ? 'var(--surface-alt)' : 'var(--surface)'}
               >
-                <td style={{ ...td, fontWeight: 600, color: 'var(--link)' }}>#{rep.id}</td>
+                <td style={{ ...td, fontWeight: 600, color: 'var(--link)' }}>
+                  <RowLink to={`/reports/${rep.id}`} label={`Report #${rep.id}`}>#{rep.id}</RowLink>
+                </td>
                 <td style={{ ...td, fontWeight: 500 }}>{rep.suite_name || '—'}</td>
                 <td style={{ ...td, color: 'var(--text-muted)', fontSize: 13 }}>{formatDate(rep.run_date)}</td>
                 <td style={{ ...td, color: 'var(--text-faint)', fontSize: 13 }}>{formatDate(rep.generated_at)}</td>

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import RowLink from '../components/RowLink';
 import { Plus, Search } from 'lucide-react';
 import BugModal from '../components/BugModal';
 
@@ -127,7 +128,9 @@ export default function Bugs() {
                 onMouseLeave={e => e.currentTarget.style.background = i % 2 ? 'var(--surface-alt)' : 'var(--surface)'}
               >
                 <td style={{ ...td, fontWeight: 500, maxWidth: 400 }}>
-                  <span style={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{bug.title}</span>
+                  <span style={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <RowLink to={`/bugs/${bug.id}`}>{bug.title}</RowLink>
+                  </span>
                 </td>
                 <td style={td}><Badge value={bug.severity} map={SEV_STYLES} /></td>
                 <td style={td}><Badge value={bug.priority} map={PRI_STYLES} /></td>

@@ -192,7 +192,15 @@ export default function TestCases() {
                   onClick={() => { setEditTarget(item); setModalOpen(true); }}
                   style={{ background: i % 2 ? 'var(--surface-alt)' : 'var(--surface)', borderBottom: '1px solid var(--border-subtle)', cursor: 'pointer' }}
                 >
-                  <td style={td}>{item.title}</td>
+                  <td style={td}>
+                    <button
+                      type="button"
+                      className="row-link"
+                      onClick={e => { e.stopPropagation(); setEditTarget(item); setModalOpen(true); }}
+                    >
+                      {item.title}
+                    </button>
+                  </td>
                   <td style={td}><Badge value={item.severity} map={SEVERITY_STYLES} /></td>
                   <td style={td}><Badge value={item.status} map={STATUS_STYLES} /></td>
                   <td style={{ ...td, color: 'var(--text-faint)', fontSize: 13 }}>{formatDate(item.updated_at)}</td>

@@ -5,6 +5,7 @@ import {
   BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
+import { useId } from 'react';
 
 const C = {
   blue:   '#2563eb',
@@ -27,18 +28,20 @@ const STATUS_COLOR = {
 
 /* ----------------------------------- Shared shell ----------------------------------- */
 function ChartCard({ title, subtitle, children, style }) {
+  const titleId = useId();
   return (
-    <div style={{
+    <figure aria-labelledby={titleId} style={{
+      margin: 0,
       background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 14,
       padding: '20px 22px', boxShadow: '0 1px 2px rgba(15,23,42,0.04), 0 4px 16px rgba(15,23,42,0.04)',
       display: 'flex', flexDirection: 'column', ...style,
     }}>
       <div style={{ marginBottom: 14 }}>
-        <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700, color: C.text, letterSpacing: '-0.01em' }}>{title}</h3>
+        <h3 id={titleId} style={{ margin: 0, fontSize: 15, fontWeight: 700, color: C.text, letterSpacing: '-0.01em' }}>{title}</h3>
         {subtitle && <p style={{ margin: '3px 0 0', fontSize: 12.5, color: '#94a3b8' }}>{subtitle}</p>}
       </div>
       <div style={{ flex: 1 }}>{children}</div>
-    </div>
+    </figure>
   );
 }
 

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import RowLink from '../components/RowLink';
 import { PassRateTrendChart, BugsWeeklyChart, CoverageDonutChart, ChartSkeleton } from '../components/DashboardCharts';
 import { formatDate, formatDateTime } from '../utils/datetime';
 
@@ -48,7 +49,7 @@ const ACTION_DOT = {
 
 function MetricCard({ label, value, sub, accent }) {
   return (
-    <div style={{ flex: 1, minWidth: 180, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '18px 20px' }}>
+    <div role="group" aria-label={label} style={{ flex: 1, minWidth: 180, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 10, padding: '18px 20px' }}>
       <div style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 500 }}>{label}</div>
       <div style={{ fontSize: 30, fontWeight: 700, color: accent ?? 'var(--text)', marginTop: 6, lineHeight: 1.1 }}>{value}</div>
       {sub && <div style={{ fontSize: 12, color: 'var(--text-faint)', marginTop: 4 }}>{sub}</div>}
@@ -254,7 +255,9 @@ export default function Dashboard() {
                         onMouseEnter={e => e.currentTarget.style.background = 'var(--surface-hover)'}
                         onMouseLeave={e => e.currentTarget.style.background = i % 2 ? 'var(--surface-alt)' : 'var(--surface)'}
                       >
-                        <td style={{ ...td, fontWeight: 500 }}>{run.suite_name ?? '—'}</td>
+                        <td style={{ ...td, fontWeight: 500 }}>
+                          <RowLink to={`/test-runs/${run.id}`} label={`${run.suite_name ?? 'Test run'} run #${run.id}`}>{run.suite_name ?? '—'}</RowLink>
+                        </td>
                         <td style={td}><RunStatusBadge status={run.status} /></td>
                         <td style={{ ...td, textAlign: 'center' }}>{run.pass_count ? <span style={{ color: 'var(--status-pass)', fontWeight: 600 }}>{run.pass_count}</span> : <span style={{ color: 'var(--text-faint)' }}>—</span>}</td>
                         <td style={{ ...td, textAlign: 'center' }}>{run.fail_count ? <span style={{ color: 'var(--status-fail)', fontWeight: 600 }}>{run.fail_count}</span> : <span style={{ color: 'var(--text-faint)' }}>—</span>}</td>
